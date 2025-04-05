@@ -48,7 +48,7 @@ class Main(object):
             produtos = Utils.get_products(produtos=produtos)
 
             url_years = Utils.get_urls_years(produtos=produtos)
-
+            
             lista_de_anos = []
             for url in url_years:
                 resp = req.post(url, headers=headers)
@@ -57,15 +57,17 @@ class Main(object):
                     lista_de_anos.append(data['resultset'])
                 else:
                     continue
-
+                    
             listaparaanos = Utils.get_list_product_year(lista_de_anos=lista_de_anos)
             lista_produto_ano = Utils.get_list_product_year_pair(listaparaanos=listaparaanos, produtos=produtos)
             dfprodutos = Utils.product_year_filtered(lista_produto_ano=lista_produto_ano)
             # Para histórico
-            # dfprodutos = pd.DataFrame(lista_produto_ano) 
+            #dfprodutos = pd.DataFrame(lista_produto_ano) 
 
             anos = list(dfprodutos['ano'])
+            logging.info(f"Found {anos} years in the URLs list")
             lista_produtos = list(dfprodutos['produto'])
+            logging.info(f"Found {lista_produtos} items products in the URLs list")
 
             urls_meses = Utils.create_urls_for_months(lista_produtos=lista_produtos, anos=anos)
 
@@ -88,6 +90,7 @@ class Main(object):
             lista_de_meses = [urllib.parse.quote_plus(mes) for mes in lista_de_meses]
             lista_de_produtos = dataframe['produto']
             lista_de_anos = dataframe['ano']
+            logging.info(f"Found {lista_de_anos} items in the URLs list")
 
             urls_municipios = Utils.getlist_urls_cities(lista_de_produtos=lista_de_produtos,
                                                         lista_de_anos=lista_de_anos, lista_de_meses=lista_de_meses)
@@ -111,6 +114,8 @@ class Main(object):
             lista_de_meses = dataframe_lista_produto_ano_mes_municipio['mes']
             lista_de_produtos = dataframe_lista_produto_ano_mes_municipio['produto']
             lista_de_anos = dataframe_lista_produto_ano_mes_municipio['ano']
+            logging.info(f"Found {lista_de_anos} years again in the list")
+
             lista_de_municipios = dataframe_lista_produto_ano_mes_municipio['municipio']
             lista_de_municipios = [urllib.parse.quote_plus(municipio) for municipio in lista_de_municipios]
 
@@ -118,7 +123,7 @@ class Main(object):
                            lista_de_meses=lista_de_meses, lista_de_municipios=lista_de_municipios)
 
             if urls:
-                logging.info(f"Found {len(urls)} items in the URLs list")
+                logging.info(f"Found {len(urls)} urls items in the URLs list")
             else:
                 logging.info("Not found list urls-api-conab-custovariavel")
 

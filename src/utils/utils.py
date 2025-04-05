@@ -38,6 +38,9 @@ class Utils(object):
         produtos = [urllib.parse.quote_plus(produto) for produto in listaprodutos]
         return produtos
 
+    
+
+
     @staticmethod
     def get_urls_years(produtos: list):
         urls_years = []
@@ -48,6 +51,7 @@ class Utils(object):
                               '5BTODAS%5D&path=%2Fhome%2FSIAGRO%2FCustoProducao.cda&dataAccessId=anoMDX&outputIndexId=1&'
                               'pageSize=0&pageStart=0&sortBy=&paramsearchBox='.format(i))
         return urls_years
+
 
     @staticmethod
     def get_list_product_year(lista_de_anos: list):
@@ -118,7 +122,7 @@ class Utils(object):
                 item = {'ano': ano, 'produto': produto, 'mes': mesexistente}
                 lista_produto_ano_mes.append(item)
         return lista_produto_ano_mes
-
+    
     @staticmethod
     def getlist_urls_cities(lista_de_produtos: list, lista_de_anos: list, lista_de_meses: list ):
         urls_municipios = []
